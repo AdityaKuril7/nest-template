@@ -2,6 +2,13 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from '../auth.service.js';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { type Request } from 'express';
+export interface AuthenticatedRequest extends Request {
+  user: {
+    sub: number;
+    email: string;
+  };
+}
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
