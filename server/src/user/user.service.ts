@@ -3,7 +3,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { RegisterDto } from '../auth/dto/register.dto.js';
 import bcrypt from 'bcryptjs';
@@ -43,13 +42,17 @@ export class UserService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: { username: string | null }) {
     await this.findOne(id);
 
-    return await this.prisma.user.update({
-      where: { id: id },
-      data: updateUserDto,
-    });
+    if (updateUserDto.username) {
+      return await this.prisma.user.update({
+        where: { id: id },
+        data: { username: updateUserDto.username },
+      });
+    } else {
+      throw new ConflictException('Username not provide !');
+    }
   }
 
   async remove(id: number) {
