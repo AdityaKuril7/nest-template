@@ -54,3 +54,5 @@ git clone https://github.com/AdityaKuril7/nest-template.git
 cd nest-template
 cd server 
 npm i
+npx prisma generate 
+npx prisma migrate dev --name init
