@@ -17,9 +17,7 @@ export class AuthService {
   async login(user: User) {
     const payLoad = { sub: user.id, email: user.email };
 
-    return {
-      access_token: await this.jwtService.signAsync(payLoad),
-    };
+    return await this.jwtService.signAsync(payLoad)
   }
 
   async profile(id: number) {
